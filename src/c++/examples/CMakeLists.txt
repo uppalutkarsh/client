@@ -29,6 +29,25 @@ cmake_minimum_required (VERSION 3.18)
 if(WIN32)
   message("C++ examples are not currently supported on Windows because "
           "they require functionalities that are UNIX specific.")
+  if(TRITON_ENABLE_CC_HTTP)
+    #
+    # simple_http_health_metadata
+    #
+    add_executable(
+      simple_http_health_metadata
+      simple_http_health_metadata.cc
+      $<TARGET_OBJECTS:json-utils-library>
+    )
+    target_link_libraries(
+      simple_http_health_metadata
+      PRIVATE
+        httpclient_static
+    )
+    install(
+      TARGETS simple_http_health_metadata
+      RUNTIME DESTINATION bin
+    )
+  endif() # TRITON_ENABLE_CC_HTTP
 else()
 if(TRITON_ENABLE_CC_HTTP AND TRITON_ENABLE_CC_GRPC)
   #
