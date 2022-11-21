@@ -48,7 +48,6 @@ extern "C" {
 
 #ifdef _WIN32
 #define strncasecmp(x, y, z) _strnicmp(x, y, z)
-#undef min  // NOMINMAX did not resolve std::min compile error
 #endif  //_WIN32
 
 namespace triton { namespace client {
