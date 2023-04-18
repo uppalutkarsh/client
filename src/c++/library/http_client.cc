@@ -552,9 +552,15 @@ HttpInferRequest::GetNextInput(uint8_t* buf, size_t size, size_t* input_bytes)
     }
   }
 
+  std::cout << "[DEBUG] HttpInferRequest::GetNextInput data_buffers_.size(): " << data_buffers_.size() << std::endl;
+  std::cout << "[DEBUG] HttpInferRequest::GetNextInput size: " << size << std::endl;
+
   // Set end timestamp if all inputs have been sent.
   if (data_buffers_.empty()) {
+    std::cout << "[DEBUG] HttpInferRequest::GetNextInput Capturing SEND_END" << std::endl;
     Timer().CaptureTimestamp(RequestTimers::Kind::SEND_END);
+  } else {
+    std::cout << "[DEBUG] HttpInferRequest::GetNextInput DID NOT Capture SEND_END" << std::endl;
   }
 
   return Error::Success;
