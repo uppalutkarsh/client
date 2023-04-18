@@ -586,9 +586,12 @@ class RequestTimers {
     const uint64_t stime = timestamps_[(size_t)start];
     const uint64_t etime = timestamps_[(size_t)end];
 
+    std::cout << "[DEBUG] common.h Duration start time: " << stime << std::endl;
+    std::cout << "[DEBUG] common.h Duration end time: " << etime << std::endl;
     // If the start or end timestamp is 0 then can't calculate the
     // duration, so return max to indicate error.
     if ((stime == 0) || (etime == 0)) {
+      std::cout << "[DEBUG] ERROR: RETURNING NUMERIC LIMITS MAX in common.h Duration" << std::endl;
       return (std::numeric_limits<uint64_t>::max)();
     }
 

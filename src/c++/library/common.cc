@@ -62,6 +62,10 @@ InferenceServerClient::UpdateInferStat(const RequestTimers& timer)
   const uint64_t recv_time_ns = timer.Duration(
       RequestTimers::Kind::RECV_START, RequestTimers::Kind::RECV_END);
 
+  std::cout << "[DEBUG] InferenceServerClient::UpdateInferStat request_time_ns: " << request_time_ns << std::endl;
+  std::cout << "[DEBUG] InferenceServerClient::UpdateInferStat send_time_ns: " << send_time_ns << std::endl;
+  std::cout << "[DEBUG] InferenceServerClient::UpdateInferStat recv_time_ns: " << recv_time_ns << std::endl;
+
   if ((request_time_ns == std::numeric_limits<uint64_t>::max()) ||
       (send_time_ns == std::numeric_limits<uint64_t>::max()) ||
       (recv_time_ns == std::numeric_limits<uint64_t>::max())) {

@@ -560,7 +560,7 @@ HttpInferRequest::GetNextInput(uint8_t* buf, size_t size, size_t* input_bytes)
     std::cout << "[DEBUG] HttpInferRequest::GetNextInput Capturing SEND_END" << std::endl;
     Timer().CaptureTimestamp(RequestTimers::Kind::SEND_END);
   } else {
-    std::cout << "[DEBUG] HttpInferRequest::GetNextInput DID NOT Capture SEND_END" << std::endl;
+    std::cout << "[DEBUG] ERROR(?) HttpInferRequest::GetNextInput DID NOT Capture SEND_END" << std::endl;
   }
 
   return Error::Success;
@@ -1465,7 +1465,10 @@ InferenceServerHttpClient::Infer(
   // measure SEND_END properly (send ends after sending request
   // header).
   if (sync_request->total_input_byte_size_ == 0) {
+    std::cout << "[DEBUG] InferenceServerHttpClient::Infer Capturing SEND_END because input_byte_size == 0" << std::endl;
     sync_request->Timer().CaptureTimestamp(RequestTimers::Kind::SEND_END);
+  } else {
+    std::cout << "[DEBUG] InferenceServerHttpClient::Infer NOT Capturing SEND_END because input_byte_size != 0. Size: " << sync_request->total_input_byte_size_ << std::endl;
   }
 
   // During this call SEND_END (except in above case), RECV_START, and
@@ -1553,7 +1556,10 @@ InferenceServerHttpClient::AsyncInfer(
       // Set SEND_END here because CURLOPT_READFUNCTION will not be called if
       // content length is 0. In that case, we can't measure SEND_END properly
       // (send ends after sending request header).
+      std::cout << "[DEBUG] InferenceServerHttpClient::AsyncInfer Capturing SEND_END because async input_byte_size == 0" << std::endl;
       async_request->Timer().CaptureTimestamp(RequestTimers::Kind::SEND_END);
+    } else {
+      std::cout << "[DEBUG] InferenceServerHttpClient::AsyncInfer NOT Capturing SEND_END because async input_byte_size != 0" << std::endl;
     }
 
     curl_multi_add_handle(multi_handle_, multi_easy_handle);
