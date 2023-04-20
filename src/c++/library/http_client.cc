@@ -1473,20 +1473,27 @@ InferenceServerHttpClient::Infer(
 
   // During this call SEND_END (except in above case), RECV_START, and
   // RECV_END will be set.
+  std::cout << "[DEBUG] InferenceServerHttpClient::Infer Calling curl_easy_perform" << std::endl;
   auto curl_status = curl_easy_perform(easy_handle_);
   if (curl_status == CURLE_OPERATION_TIMEDOUT) {
+    std::cout << "[DEBUG] InferenceServerHttpClient::Infer curl_easy_perform TIMEOUT" << std::endl;
     sync_request->http_code_ = 499;
   } else if (curl_status != CURLE_OK) {
+    std::cout << "[DEBUG] InferenceServerHttpClient::Infer curl_easy_perform NOT OK" << std::endl;
     sync_request->http_code_ = 400;
   } else {
+    std::cout << "[DEBUG] InferenceServerHttpClient::Infer curl_easy_perform calling curl_easy_getinfo" << std::endl;
     curl_easy_getinfo(
         easy_handle_, CURLINFO_RESPONSE_CODE, &sync_request->http_code_);
   }
+  std::cout << "[DEBUG] InferenceServerHttpClient::Infer curl_easy_perform http_code returned: " << sync_request->http_code_ << std::endl;
 
   InferResultHttp::Create(result, sync_request);
 
+  std::cout << "[DEBUG] InferenceServerHttpClient::Infer Capturing REQUEST_END" << std::endl;
   sync_request->Timer().CaptureTimestamp(RequestTimers::Kind::REQUEST_END);
 
+  std::cout << "[DEBUG] InferenceServerHttpClient::Infer Updating request infer stats" << std::endl;
   err = UpdateInferStat(sync_request->Timer());
   if (!err.IsOk()) {
     std::cerr << "Failed to update context stat: " << err << std::endl;

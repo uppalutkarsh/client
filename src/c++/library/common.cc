@@ -55,10 +55,14 @@ InferenceServerClient::ClientInferStat(InferStat* infer_stat) const
 Error
 InferenceServerClient::UpdateInferStat(const RequestTimers& timer)
 {
+  
+  std::cout << "[DEBUG] InferenceServerClient::UpdateInferStat Capturing REQUEST_START/REQUEST_END TIMES" << std::endl;
   const uint64_t request_time_ns = timer.Duration(
       RequestTimers::Kind::REQUEST_START, RequestTimers::Kind::REQUEST_END);
+  std::cout << "[DEBUG] InferenceServerClient::UpdateInferStat Capturing SEND_START/SEND_END TIMES" << std::endl;
   const uint64_t send_time_ns = timer.Duration(
       RequestTimers::Kind::SEND_START, RequestTimers::Kind::SEND_END);
+  std::cout << "[DEBUG] InferenceServerClient::UpdateInferStat Capturing RECV_START/RECV_END TIMES" << std::endl;
   const uint64_t recv_time_ns = timer.Duration(
       RequestTimers::Kind::RECV_START, RequestTimers::Kind::RECV_END);
 
