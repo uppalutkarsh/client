@@ -1483,6 +1483,7 @@ InferenceServerHttpClient::Infer(
     std::cout << "[DEBUG] InferenceServerHttpClient::Infer curl_easy_perform error string: " << curl_easy_strerror(curl_status) << std::endl;
     sync_request->http_code_ = 400;
   } else {
+    std::cout << "[DEBUG] InferenceServerHttpClient::Infer curl_easy_perform retcode string: " << curl_easy_strerror(curl_status) << std::endl;
     std::cout << "[DEBUG] InferenceServerHttpClient::Infer curl_easy_perform calling curl_easy_getinfo" << std::endl;
     curl_easy_getinfo(
         easy_handle_, CURLINFO_RESPONSE_CODE, &sync_request->http_code_);
