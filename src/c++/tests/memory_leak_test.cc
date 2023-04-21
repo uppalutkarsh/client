@@ -120,6 +120,12 @@ RunSynchronousInference(
 
   for (size_t i = 0; i < repetitions; ++i) {
     tc::InferResult* results;
+    // DEBUG ////
+    options.request_id_ = std::to_string(i);
+    auto now = std::chrono::system_clock::now();
+    std::time_t now_time = std::chrono::system_clock::to_time_t(now);
+    std::cout << std::ctime(&now_time) << "====== Sending request with ID: " << i << std::endl;
+    /////////////
     if (!reuse) {
       if (protocol == "grpc") {
         std::unique_ptr<tc::InferenceServerGrpcClient> grpc_client;
