@@ -265,6 +265,9 @@ class TestRequestRateManager : public TestLoadManagerBase,
                                 stats_->num_infer_calls;
     CHECK(stats.completed_request_count == client_total_requests);
 
+    for (auto x : stats_->sequence_status.seq_ids_to_count) {
+      std::cout << x.first << ": " << x.second << std::endl;
+    }
     ResetStats();
 
     // Run and check request rate 2
@@ -769,7 +772,13 @@ TEST_CASE("request_rate_multiple")
 ///
 TEST_CASE("request_rate_sequence")
 {
-  PerfAnalyzerParameters params = TestLoadManagerBase::GetSequenceTestParams();
+  PerfAnalyzerParameters params;
+  SUBCASE("old") { params = TestLoadManagerBase::GetSequenceTestParams(); }
+  SUBCASE("new")
+  {
+    // New testing with flag to test counts
+  }
+
   bool is_sequence_model = true;
   TestRequestRateManager trrm(params, is_sequence_model);
 
@@ -778,6 +787,7 @@ TEST_CASE("request_rate_sequence")
       params.user_data, params.start_sequence_id, params.sequence_id_range,
       params.sequence_length, params.sequence_length_specified,
       params.sequence_length_variation);
+  std::cout << "\n\nTKG -- new test:\n";
   trrm.TestSequences();
 }
 

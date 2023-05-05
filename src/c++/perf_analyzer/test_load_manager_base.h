@@ -250,6 +250,12 @@ class TestLoadManagerBase {
     }
     SUBCASE("sequence_length 1") { params.sequence_length = 1; }
     SUBCASE("sequence_length 10") { params.sequence_length = 10; }
+    SUBCASE("TKG")
+    {
+      params.sequence_length = 100;
+      params.num_of_sequences = 7;
+      params.max_threads = 4;
+    }
     return params;
   }
 };
