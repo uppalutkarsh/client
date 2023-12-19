@@ -32,6 +32,7 @@ namespace pa = triton::perfanalyzer;
 int
 main(int argc, char* argv[])
 {
+  std::cout << "matthewkotila-test" << std::endl;
   try {
     triton::perfanalyzer::CLParser clp;
     pa::PAParamsPtr params = clp.Parse(argc, argv);
